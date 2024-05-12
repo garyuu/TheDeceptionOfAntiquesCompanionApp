@@ -1,12 +1,13 @@
 const initStatus = {
     mode: 0, // 0: Single Device, 1: Multiple Device(Local), 2: Multiple Device(Remote)
     player_number: 0,
-    round: 0, // 0: Choose Character, 1-3: Normal Round, 4: Summary Round
+    round: -1, // -1: Choose Character, 0-2: Normal Round, 3: Summary Round
     current_player_index: 0,
     not_activated_player_indexes: [],
     poisoned_players_indexes: [],
     result_inverted: false,
     hided_index: -1,
+    jiyunfu_poisoned: false,
     vote_results: [],
     identify_results: [],
     players: [],
@@ -175,6 +176,10 @@ class GameCore {
         this.info.color = color;
         this.info.character = character;
 
+        this.checkChooseCharacterCompleted();
+    }
+
+    checkChooseCharacterCompleted() {
         const players = this.status.players;
         if (players.length == this.status.player_number) {
             for (let i = 0; i < players.length; i++) {
@@ -207,7 +212,80 @@ class GameCore {
         }
     }
 
+    abort() {
+        this.status.ended = true;
+    }
+
     launch() {
+        const status = this.status;
+
+        if (status.round != -1) {
+            return;
+        }
+
+        status.round = 0;
+        status.current_player_index = first_player_index;
+    }
+
+    nextRound() {
+        const status = this.status;
+        if (status.round < 0 || status.round > 2) {
+            return;
+        }
+
+        status.round++;
+
+        status.result_inverted = false;
+        status.hided_index = -1;
+        status.not_activated_player_indexes = [];
+        for (let i = 0; i < status.players.length; i++) {
+            if (i != status.current_player_index) {
+                status.not_activated_player_indexes.push(i);
+            }
+        }
+    }
+
+    getCurrentRoundInfo() {
+
+    }
+
+    appraisalZodiac(zodiac_indexes) {
+
+    }
+
+    checkPlayerFaction(player_index) {
+
+    }
+
+    poisonPlayer(player_index) {
+
+    }
+
+    hideZodiac(zodiac_index) {
+
+    }
+
+    invertZodiacReality() {
+
+    }
+
+    isPoisoned() {
+
+    }
+
+    chooseNextPlayer(player_index) {
+
+    }
+
+    enterVotes(votes) {
+
+    }
+
+    pointOutPlayer(playerIndex) {
+
+    }
+
+    calculateFinalScore() {
 
     }
 };
